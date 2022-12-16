@@ -26,7 +26,6 @@ export const fetchComments = createAsyncThunk(
 
 const initialState = {
     posts: [],
-    currentPost: null,
     postsError: false,
     postsIsLoading: false,
     commentsError: false,
@@ -44,7 +43,7 @@ export const redditDataSlice = createSlice({
         })
         builder.addCase(fetchPosts.fulfilled, (state, action) => {
             state.posts = action.payload;
-            console.log(action.payload);
+            state.postsLength = action.payload.length - 1;
             state.postsIsLoading  = false;
             state.postsError = false;
         })
@@ -54,15 +53,11 @@ export const redditDataSlice = createSlice({
         })
         // to fetch comments
         builder.addCase(fetchComments.pending, (state, action) => {
-            state.currentPost = null;
             state.commentsIsLoading = true;
             state.commentsError = false;
         })
         builder.addCase(fetchComments.fulfilled, (state, action) => {
-            console.log('why tho')
-            state.currentPost = action.payload.id;
             state.posts[action.payload.id].comments = action.payload.data;
-            console.log(action.payload);
             state.commentsIsLoading  = false;
             state.commentsError = false;
         })
@@ -77,7 +72,6 @@ export const selectPosts = (state) => state.redditData.posts;
 export const isLoadingPosts = (state) => state.redditData.postsIsLoading;
 export const isErrorPosts = (state) => state.redditData.postsError;
 
-export const selectCurrentPost = (state) => state.redditData.currentPost;
 export const isLoadingComments = (state) => state.redditData.commentsIsLoading;
 export const isErrorComments= (state) => state.redditData.commentsError;
 
