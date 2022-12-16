@@ -22,7 +22,7 @@ export const PostsModal = (props) => {
             <Typography id="modal-modal-title" variant="h6" component="h2" sx={{textAlign: 'center'}}>
                 <LazyLoadImage src={data.url_overridden_by_dest} alt="Image Alt" style={{ objectFit: 'contain', height: 400, maxHeight: 400}}/>
             </Typography>
-            <Typography gutterBottom variant="p" component="h2">
+            <Typography gutterBottom variant="h6" component="h2">
                 {data.title}
             </Typography>
             <Typography variant="caption">
