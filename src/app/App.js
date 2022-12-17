@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
@@ -16,7 +16,7 @@ export const App = () => {
     <Provider store={store}>
       <Router>
           <Routes>
-            <Route path="/" element={<> <Nav /><Home /> </>} />
+            <Route path='/' element={<> <Nav /><Home /> </>} />
           </Routes>
       </Router>
     </Provider>

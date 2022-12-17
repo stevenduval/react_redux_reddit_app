@@ -1,68 +1,64 @@
-import { Card, CardContent, Grid, Link, Typography } from "@mui/material";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useState } from "react";
-import { PostsModal } from "./PostsModal";
-import Moment from "react-moment";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchComments, isLoadingComments, selectPosts } from "../../app/redditDataSlice";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchComments, isLoadingComments, selectPosts } from '../../app/redditDataSlice';
+import { PostsCard } from './PostsCard';
+import { PostDialog } from './Dialog/PostDialog';
+
 
 export const Posts = (props) => {
 
+    // deconstruct props
     const { data, index } = props;
 
+    // setting local state for dialog components
     const [open, setOpen] = useState(false);
-    const [modalIndex, setModalIndex] = useState(index);
+    const [dialogIndex, setDialogIndex] = useState(index);
+
+    // reuseable reference to dispatch function
     const dispatch = useDispatch();
 
+    // vars for storing data
     const loadingComments = useSelector(isLoadingComments);
     const rawData = useSelector(selectPosts);
-    const modalData = rawData[modalIndex];
+    const dialogData = rawData[dialogIndex];
 
-
+    // retrieve comments for post and set index of dialog
     const getComments = (index) => {
         const permalink = rawData[index].permalink;
         dispatch(fetchComments({index, permalink}));
-        setModalIndex(index);
+        setDialogIndex(index);
     }
 
+    // set index and get comments of next post
     const handleNext = (index) => {
         index =  index < rawData.length - 1 ? index + 1 : 0;
         getComments(index);
     }
 
+    // set index and get comments of previous post
     const handlePrev = (index) => {
         index =  index > 0 ? index - 1 : rawData.length - 1;
         getComments(index);
     }
-    
+
+    // get comments for clicked on post and open dialog component
     const handleOpen = (index) => {
         getComments(index);
         setOpen(true);
     }
 
+    // close dialog component
     const handleClose = () => {
         setOpen(false);
     }
 
-
     return (
-        <Grid item xs={12} md={6} >
-            <Card
-                sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} onClick={() => handleOpen(index) }>
-                <LazyLoadImage src={data.url_overridden_by_dest} alt="Image Alt" style={{maxHeight: '175px', objectFit: 'cover'}}/>
-                <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h6" component="h2" noWrap={true}>
-                        {data.title}
-                    </Typography>
-                    <Typography variant="caption">
-                        Posted <Moment fromNow unix>{data.created_utc}</Moment> by:&nbsp;
-                        <Link href={`https://reddit.com/user/${data.author}`} rel="noopener" target="_blank" title="GitHub">{data.author}</Link>
-                        {/* <br />
-                        This post has {data.comments} comment(s). */}
-                    </Typography>
-                </CardContent>
-            </Card>
-            <PostsModal handleClose={handleClose} open={open} data={modalData} index={modalIndex} loading={loadingComments} handleNext={handleNext} handlePrev={handlePrev} />
-        </Grid>
+        <>
+            <PostsCard data={data} handleOpen={handleOpen} index={index} />
+            <PostDialog handleClose={handleClose} open={open} data={dialogData} index={dialogIndex} loading={loadingComments} handleNext={handleNext} handlePrev={handlePrev} />
+        </>
+
     );
+
 }
