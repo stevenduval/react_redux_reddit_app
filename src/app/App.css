@@ -32,12 +32,99 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
+.icon.prev,
+.icon.next {
+  position: absolute;
+  top: 45%;
+  color: #000000;
+  padding: 5px;
+  background: #FFFFFF;
+  border-radius: 50%;
+}
+
+.icon.prev {
+  left: -40px;
+}
+
+.icon.next {
+  right: -40px;
+}
+
+.icon.close {
+  position: fixed;
+  top: 1%;
+  right: 1%;
+  color: #000000;
+  padding: 5px;
+  background: #FFFFFF;
+  border-radius: 50%;
+}
+
 .icon:hover {
-  background: black;
-  color: white;
+  background: #000000;
+  color: #FFFFFF;
+}
+
+.MuiDialog-container>.MuiDialog-paper {
+  overflow-y: unset;
+}
+
+.image-container {
+  position: static;
+}
+
+@media only screen and (max-width: 899px) {
+  
+  .MuiDialogContent-root {
+    width: unset !important;
+  }
+
+  .MuiDialog-container img {
+    height: unset !important;
+    max-height: 50vh !important;
+  }
+
+  .MuiDialogContent-root {
+    overflow: auto !important;
+  }
+
+  .icon.prev,
+  .icon.next {
+    top: 45%;
+    color: #ffffff;
+    background: #000000;
+    border-radius: 50%;
+  }
+
+  .icon.prev {
+    left: 0px;
+  }
+
+  .icon.next {
+    right: 0px;
+  }
+
+  .icon.close {
+    top: 0;
+    right: unset;
+    left: 0;
+    background: none;
+    padding: 2px;
+  }
+
+  .image-container {
+    position: relative;
+  }
+
+  .comments {
+    height: unset !important;
+    padding-top: 0px !important;
+  }
+
 }

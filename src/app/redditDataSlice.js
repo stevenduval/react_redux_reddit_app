@@ -1,8 +1,3 @@
-// i think i will need an async thunk to get the data from the site
-
-// will need to store that data in the state
-
-
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 export const fetchPosts = createAsyncThunk(

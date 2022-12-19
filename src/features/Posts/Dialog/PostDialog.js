@@ -3,15 +3,29 @@ import { PostDialogContent } from './PostDialogContent';
 
 import Dialog from '@mui/material/Dialog';
 import CloseIcon from '@mui/icons-material/Close';
+import { useMediaQuery, useTheme } from '@mui/material';
+import { useSwipeable } from 'react-swipeable';
 
 
 export const PostDialog = (props) => {
 
+    // destructure props
     const { handleClose, open, data, index, loading, handleNext, handlePrev } = props;
 
+    // bring in theme so we can set full screen ability on dialog component
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+    // events for swipe actions for touchscreen/mobile
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: () => handleNext(index),
+        onSwipedRight: () => handlePrev(index),
+        onTap: () => handleClose()
+      });
+
     return (
-        <Dialog onClose={handleClose} open={open}>
-            <CloseIcon className='icon' onClick={()=> { handleClose() }} fontSize='small' sx={{position: 'fixed', top: '1%', right: '1%', color: '#000', padding: '5px', background: '#FFF', borderRadius: '50%'}} />
+        <Dialog {...swipeHandlers} onClose={handleClose} open={open} fullScreen={fullScreen} >
+            <CloseIcon className={`icon close`} onClick={()=> { handleClose() }} fontSize='small' />
             {loading ? (
                 <PostDialogLoading />
             ) : (
