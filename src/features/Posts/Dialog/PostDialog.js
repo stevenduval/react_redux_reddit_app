@@ -20,7 +20,6 @@ export const PostDialog = (props) => {
     const swipeHandlers = useSwipeable({
         onSwipedLeft: () => handleNext(index),
         onSwipedRight: () => handlePrev(index),
-        onTap: () => handleClose()
       });
 
     return (

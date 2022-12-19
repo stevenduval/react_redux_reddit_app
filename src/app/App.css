@@ -80,7 +80,7 @@
 }
 
 @media only screen and (max-width: 899px) {
-  
+
   .MuiDialogContent-root {
     width: unset !important;
   }
@@ -116,9 +116,11 @@
     left: 0;
     background: none;
     padding: 2px;
+    font-size: 1.75em;
   }
 
   .image-container {
+    margin-top: 20px;
     position: relative;
   }
 
