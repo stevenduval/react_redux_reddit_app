@@ -3,9 +3,18 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 export const fetchPosts = createAsyncThunk(
     'posts/loadPosts',
     async () => {
-        const response = await fetch('https://www.reddit.com/r/streetphotography/new.json');
+        const response = await fetch('https://www.reddit.com/r/streetphotography/new.json?limit=50');
         const json = await response.json();
-        return json.data.children.map(post => post.data);
+
+        return json.data.children.reduce((result, post) => { 
+            if (post.data.url_overridden_by_dest && 
+                post.data.url_overridden_by_dest.includes('jpg') && 
+                result.length < 40) { 
+                result.push(post.data);
+            } 
+            
+            return result;
+        }, [])
     }
 )
 
